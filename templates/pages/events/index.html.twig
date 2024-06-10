@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Événements{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto">
+        <h1 class="text-center mt-5 text-3xl">
+            Liste des Événements
+        </h1>
+
+        <hr class="my-5">
+
+        <div>
+            <table class="table-auto w-full">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Nom</th>
+                        <th class="px-4 py-2">Date</th>
+                        <th class="px-4 py-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td class="border px-4 py-2">{{ event.name }}</td>
+                            <td class="border px-4 py-2">{{ event.date|date('d/m/Y') }}</td>
+                            <td class="border px-4 py-2">
+                                <a href="" class="text-white bg-blue-500 px-4 py-2 rounded">
+                                    S'inscrire
+                                </a>
+                                <a href="{{ path('events_edit', {'id': event.id}) }}" class="text-white bg-green-500 px-4 py-2 rounded">
+                                    Modifier
+                                </a>
+                                <a href="{{ path('events_delete', {'id': event.id}) }}" class="text-white bg-red-500 px-4 py-2 rounded">
+                                    Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

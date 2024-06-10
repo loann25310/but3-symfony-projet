@@ -1,0 +1,54 @@
+{{ form_start(form, {'attr': {'class': 'container mt-5 card'}}) }}
+<div class="">
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {'attr': {'class': 'w-full border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(form.name) }}
+        </div>
+    </div>
+
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'w-full border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(form.description) }}
+        </div>
+    </div>
+
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(form.date) }}
+        {{ form_widget(form.date, {'attr': {'class': 'w-full border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(form.date) }}
+        </div>
+    </div>
+
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(form.maxParticipants) }}
+        {{ form_widget(form.maxParticipants, {'attr': {'class': 'w-full border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(form.maxParticipants) }}
+        </div>
+    </div>
+
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(form.public) }}
+        {{ form_widget(form.public, {'attr': {'class': 'border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(form.public) }}
+        </div>
+    </div>
+
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            {% if form.vars.value.id %}
+                Modifier
+            {% else %}
+                Créer
+            {% endif %}
+            l'événement
+        </button>
+    </div>
+</div>
+{{ form_end(form) }}
