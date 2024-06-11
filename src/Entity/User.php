@@ -122,6 +122,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->firstname = $firstname;
     }
 
+    public function hashPassword(): void
+    {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+    }
+
+    public function verifyPassword(string $password): bool
+    {
+        return password_verify($password, $this->password);
+    }
+
     public function getLastname(): ?string
     {
         return $this->lastname;
