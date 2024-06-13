@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm, {'attr': {'class': 'container mt-5 card'}}) }}
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(registrationForm.lastname) }}
+        {{ form_widget(registrationForm.lastname, {'attr': {'class': 'w-full border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(registrationForm.lastname) }}
+        </div>
+    </div>
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(registrationForm.firstname) }}
+        {{ form_widget(registrationForm.firstname, {'attr': {'class': 'w-full border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(registrationForm.firstname) }}
+        </div>
+    </div>
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(registrationForm.email) }}
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'w-full border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(registrationForm.email) }}
+        </div>
+    </div>
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(registrationForm.plainPassword.first) }}
+        {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'w-full border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(registrationForm.plainPassword.first) }}
+        </div>
+    </div>
+
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(registrationForm.plainPassword.second) }}
+        {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'w-full border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(registrationForm.plainPassword.second) }}
+        </div>
+    </div>
+
+
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
