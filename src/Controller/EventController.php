@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\User;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +18,19 @@ use Symfony\Component\Routing\Attribute\Route;
 class EventController extends AbstractController
 {
     #[Route('/', name: 'app_event_index', methods: ['GET'])]
-    public function index(EventRepository $eventRepository): Response
+    public function index(Request $request, EventRepository $eventRepository): Response
     {
+        $page = $request->query->getInt('page', 1);
+
+        $c = Criteria::create()
+            ->orderBy(['date' => Order::Ascending])
+            ->setFirstResult(($page - 1) * 10)
+            ->setMaxResults(10);
+
         return $this->render('pages/event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'events' => $eventRepository->matching($c),
+            'page' => $page,
+            'pages' => ceil($eventRepository->count([]) / 10),
         ]);
     }
 
@@ -72,6 +84,15 @@ class EventController extends AbstractController
     public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->getPayload()->get('_token'))) {
+
+            /** @var User $user */
+            $user = $this->getUser();
+
+            // Ensure that is the owner of the event
+            if ($event->getCreatedBy()->getId() !== $user->getId()) {
+                throw $this->createAccessDeniedException();
+            }
+
             $entityManager->remove($event);
             $entityManager->flush();
         }

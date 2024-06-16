@@ -1,8 +1,10 @@
-<form method="post" action="{{ path('app_event_delete', {'id': event.id}) }}"
-      onsubmit="return confirm('Voulez-vous vraiment supprimer cet événement ?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
-    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" type="submit">
-        <i class="fas fa-trash"></i>
-        Supprimer
-    </button>
-</form>
+{% if app.user and app.user.id == event.createdBy.id %}
+    <form method="post" action="{{ path('app_event_delete', {'id': event.id}) }}"
+          onsubmit="return confirm('Voulez-vous vraiment supprimer cet événement ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" type="submit">
+            <i class="fas fa-trash"></i>
+            Supprimer
+        </button>
+    </form>
+{% endif %}
