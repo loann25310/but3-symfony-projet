@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Form\EventType;
+use App\Form\RegisterEventFormType;
 use App\Repository\EventRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
@@ -13,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/event')]
 class EventController extends AbstractController
@@ -98,5 +100,35 @@ class EventController extends AbstractController
         }
 
         return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/register', name: 'app_event_register', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function register(Request $request, Event $event, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(RegisterEventFormType::class, [
+            'event' => $event,
+            'user' => $user,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $event->addParticipant($user);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Vous êtes bien inscrit à l\'événement');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Votre inscription n\'a pas pu être prise en compte, l\'événement est complet');
+            }
+            return $this->redirectToRoute('app_event_show', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('pages/event/register.html.twig', [
+            'event' => $event,
+            'form' => $form,
+        ]);
     }
 }

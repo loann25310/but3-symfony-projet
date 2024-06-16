@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,6 +36,9 @@ class Event
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $createdBy;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events')]
+    private ?Collection $participants = null;
 
     public function getId(): ?int
     {
@@ -111,5 +115,28 @@ class Event
         $this->createdBy = $createdBy;
     }
 
+    public function getParticipants(): ?Collection
+    {
+        return $this->participants;
+    }
+
+    public function setParticipants(?Collection $participants): void
+    {
+        $this->participants = $participants;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function addParticipant(User $user)
+    {
+        if($this->participants->contains($user)) {
+            return;
+        }
+        if($this->maxParticipants !== null && $this->participants->count() >= $this->maxParticipants) {
+            throw new \Exception('Event is full');
+        }
+        $this->participants->add($user);
+    }
 
 }

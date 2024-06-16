@@ -1,0 +1,23 @@
+{{ form_start(form, {'attr': {'class': 'container mt-5 card'}}) }}
+<div class="container mx-auto">
+
+    <h2 class="text-center my-5 text-3xl font-bold">
+        {{ event.name }}
+    </h2>
+
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        {{ form_label(form.confirm) }}
+        {{ form_widget(form.confirm, {'attr': {'class': 'border border-gray-300 p-2 mb-4'}}) }}
+        <div class="text-red-500">
+            {{ form_errors(form.confirm) }}
+        </div>
+    </div>
+
+    <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <i class="fas fa-user-plus"></i>
+            S'inscrire
+        </button>
+    </div>
+</div>
+{{ form_end(form) }}

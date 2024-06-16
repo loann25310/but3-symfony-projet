@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +40,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?string $lastname = null;
+
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'participants')]
+    private ?Collection $registrations = null;
 
     public function getId(): ?int
     {
@@ -142,6 +147,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(?string $lastname): void
     {
         $this->lastname = $lastname;
+    }
+
+    public function getRegistrations(): ?Collection
+    {
+        return $this->registrations;
+    }
+
+    public function setRegistrations(?Collection $registrations): void
+    {
+        $this->registrations = $registrations;
+    }
+
+    public function isRegisteredToEvent(Event $event): bool
+    {
+        return $this->registrations->contains($event);
     }
 
 

@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier un Événement{% endblock %}
+{% block title %}Inscription à un Événement{% endblock %}
 
 {% block body %}
     <div class="container mx-auto">
         <h1 class="text-center mt-5 text-3xl">
-            Modifier un Événement
+            Inscription à un Événement
         </h1>
 
-        {{ include('pages/event/_form.html.twig') }}
+        {{ include('pages/event/_register_form.html.twig') }}
 
         <div class="my-5">
             <a href="{{ path('app_event_index') }}" class="text-red-500">
@@ -16,7 +16,5 @@
                 Retour à la liste
             </a>
         </div>
-
-        {{ include('pages/event/_delete_form.html.twig') }}
     </div>
 {% endblock %}
