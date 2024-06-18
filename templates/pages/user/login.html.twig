@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto">
+
+
+        <form method="post" class="max-w-sm mx-auto">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <div class="grid justify-center">
+
+                <div class="">
+                    <h1 class="h3 mb-3 font-weight-normal">Connection</h1>
+                    <label for="username">Email</label>
+                    <input type="email" value="{{ last_username }}" name="_username" id="username" class="w-full border border-gray-300 p-2 mb-4"
+                           autocomplete="email" required autofocus>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="_password" id="password" class="w-full border border-gray-300 p-2 mb-4" autocomplete="current-password"
+                           required>
+
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                </div>
+
+            </div>
+
+            {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
+            #}
+            <div class="flex justify-between my-2">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Se
+                    connecter
+                </button>
+                <a href="{{ path("app_register") }}" class="text-blue-500">Pas inscrit ? inscrivez-vous <i
+                            class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

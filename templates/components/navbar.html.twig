@@ -28,7 +28,7 @@
                     {% if app.user %}
                     <div>
                         <button type="button"
-                                onclick="location.href='/logout'"
+                                onclick="location.href='{{ path("app_logout") }}'"
                                 class="relative text-white bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                             Déconnexion
@@ -37,7 +37,7 @@
                     {% else %}
                         <div>
                             <button type="button"
-                                    onclick="location.href='/login'"
+                                    onclick="location.href='{{ path("app_login") }}'"
                                     class="relative text-white bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                     id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 Connexion

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+    <div class="container max-w-sm mx-auto ">
+        <h1 class="my-5 text-3xl">
+            S'inscrire
+        </h1>
+
+        {{ include('forms/registration.html.twig') }}
+    </div>
+
+{% endblock %}
