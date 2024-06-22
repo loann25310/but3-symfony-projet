@@ -65,6 +65,19 @@ class EventController extends AbstractController
         ]);
     }
 
+
+    #[Route('/registereds', name: 'app_event_registereds', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function registereds(EventRepository $eventRepository): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        return $this->render('pages/event/registereds.html.twig', [
+            'events' => $eventRepository->findByParticipant($user),
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_event_show', methods: ['GET'])]
     public function show(Event $event): Response
     {
@@ -90,6 +103,22 @@ class EventController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}/cancelRegistration', name: 'app_event_cancel_registration', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function cancelRegistration(Request $request, Event $event, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        $event->removeParticipant($user);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre inscription a bien été annulée');
+        $this->notificationManager->sendRegistrationCancellation($user, $event);
+
+        return $this->redirectToRoute('app_event_registereds', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
+    }
+
 
     #[Route('/{id}', name: 'app_event_delete', methods: ['POST'])]
     public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
@@ -144,4 +173,5 @@ class EventController extends AbstractController
             'form' => $form,
         ]);
     }
+
 }

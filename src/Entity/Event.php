@@ -139,4 +139,9 @@ class Event
         $this->participants->add($user);
     }
 
+    public function removeParticipant(User $user)
+    {
+        $this->participants->removeElement($user);
+    }
+
 }
