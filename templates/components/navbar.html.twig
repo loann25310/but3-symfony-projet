@@ -3,7 +3,7 @@
     { path: 'app_event_new', label: 'Créer Événement' },
     { path: 'app_event_index', label: 'Liste des Événements' },
     { path: 'app_event_new', label: 'Inscriptions' },
-    { path: 'app_event_new', label: 'Profil Utilisateur' },
+    { path: 'app_profile_edit', label: 'Profil Utilisateur' },
 ] %}
 
 <nav class="bg-gray-800">
@@ -13,12 +13,14 @@
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
                         {% for link in links %}
+                            {% if link.path != "app_profile_edit" or app.user %}
                             {% set isCurrent = app.request.attributes.get('_route') == link.path %}
                             <a href="{{ path(link.path) }}"
                                class="rounded-md px-3 py-2 text-sm font-medium {{ isCurrent ? 'text-white bg-gray-900' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}"
                                aria-current="{{ isCurrent ? 'page' : '' }}">
                                 {{ link.label }}
                             </a>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
