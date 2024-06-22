@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\EqualTo;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormType extends AbstractType
 {
@@ -29,6 +30,7 @@ class RegistrationFormType extends AbstractType
                     new Email([
                         'message' => 'Please enter a valid email address',
                     ]),
+
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
@@ -45,6 +47,10 @@ class RegistrationFormType extends AbstractType
                         'minMessage' => 'Your password confirmation should be at least {{ limit }} characters',
                         'max' => 255,
                     ]),
+                    new Regex([
+                        'pattern' => '/\d+/i',
+                        'message' => 'Please enter at least one digit',
+                    ])
                 ],
             ])
         ;
