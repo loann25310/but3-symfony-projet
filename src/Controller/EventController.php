@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\EventType;
 use App\Form\RegisterEventFormType;
 use App\Repository\EventRepository;
+use App\Service\NotificationManagerInterface;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/event')]
 class EventController extends AbstractController
 {
+
+    private NotificationManagerInterface $notificationManager;
+
+    public function __construct(NotificationManagerInterface $notificationManager)
+    {
+        $this->notificationManager = $notificationManager;
+    }
+
     #[Route('/', name: 'app_event_index', methods: ['GET'])]
     public function index(Request $request, EventRepository $eventRepository): Response
     {
@@ -120,7 +129,11 @@ class EventController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Vous êtes bien inscrit à l\'événement');
+
+                $this->notificationManager->sendRegistrationConfirmation($user, $event);
+
             } catch (\Exception $e) {
+                dd($e);
                 $this->addFlash('error', 'Votre inscription n\'a pas pu être prise en compte, l\'événement est complet');
             }
             return $this->redirectToRoute('app_event_show', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Email{% endblock %}</title>
+    <style>
+        /* Ajoutez ici les styles généraux pour tous les emails */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #dddddd;
+        }
+        .email-header, .email-footer {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+        .email-body {
+            padding: 20px;
+        }
+        .email-body p {
+            margin: 0 0 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+
+    <div class="email-body">
+        {% block body %}
+            <!-- Contenu de l'email sera inséré ici -->
+        {% endblock %}
+    </div>
+
+    <div class="email-footer">
+        {% block footer %}
+            <p>&copy; {{ "now"|date("Y") }} App. Tous droits réservés.</p>
+        {% endblock %}
+    </div>
+</div>
+</body>
+</html>

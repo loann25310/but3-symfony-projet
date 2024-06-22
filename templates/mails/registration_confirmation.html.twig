@@ -1,0 +1,24 @@
+{% extends "mails/base_email.html.twig" %}
+
+{% block title %}
+    Confirmation d'inscription à {{ event.name }}
+{% endblock %}
+
+{% block body %}
+    <p>Bonjour {{ user.firstname }} {{ user.lastname }},</p>
+
+    <p>Merci de vous être inscrit à <strong>{{ event.name }}</strong> ! Nous sommes ravis de vous compter parmi les participants.</p>
+
+    <p>Voici les détails de l'événement :</p>
+    <ul>
+        <li><strong>Date :</strong> {{ event.date|date("d/m/Y") }}</li>
+        <li><strong>Heure :</strong> {{ event.date|date("H:i") }}</li>
+    </ul>
+
+    <p>Pour plus d'informations, n'hésitez pas à nous contacter ou à visiter notre site web.</p>
+
+    <p>Nous nous réjouissons de vous voir bientôt !</p>
+
+    <p>Cordialement,</p>
+    <p>L'équipe</p>
+{% endblock %}
